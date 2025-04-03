@@ -192,7 +192,7 @@ const DATA = {
 
 // Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyD_z_K0Z3wMxGjVRSOYkz3ClghUNLUZZSA",
+    apiKey: "AIzaSyCFNhjD9XX6hMZB7WB74ZFy4wiJJCIhrWM",
     authDomain: "interior-resource-hub.firebaseapp.com",
     projectId: "interior-resource-hub",
     storageBucket: "interior-resource-hub.appspot.com",
