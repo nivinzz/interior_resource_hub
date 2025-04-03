@@ -1,0 +1,593 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+body {
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* App container */
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* Top navigation bar */
+.top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    height: 50px;
+    background-color: #333;
+}
+
+.category-container {
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    -ms-overflow-style: none;  /* IE and Edge */
+}
+
+.category-container::-webkit-scrollbar {
+    height: 4px;
+}
+
+.category-container::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+}
+
+.category-button {
+    background-color: transparent;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    cursor: pointer;
+    white-space: nowrap;
+    font-size: 14px;
+    border-radius: 4px;
+    margin-right: 2px;
+    transition: background-color 0.3s;
+}
+
+.category-button:hover {
+    background-color: #555;
+}
+
+.category-button.active {
+    background-color: #4a86e8;
+    font-weight: bold;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+}
+
+.icon-button {
+    background-color: transparent;
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    margin-left: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s;
+}
+
+.icon-button:hover {
+    background-color: #555;
+}
+
+.icon-button i {
+    font-size: 18px;
+}
+
+/* Main content area */
+.main-content {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* Websites panel (left, 20%) */
+.websites-panel {
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    background-color: #f5f5f5;
+    border-right: 1px solid #ddd;
+    overflow: hidden;
+}
+
+.panel-header {
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #ddd;
+}
+
+.panel-header h2 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+}
+
+.websites-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.website-button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 12px 15px;
+    margin-bottom: 5px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #333;
+    font-size: 14px;
+}
+
+.website-button:hover {
+    background-color: #f0f7ff;
+    border-color: #a0c8ff;
+}
+
+.website-button.active {
+    background-color: #e6f0ff;
+    border: 2px solid #4a86e8;
+}
+
+.no-websites {
+    color: #888;
+    text-align: center;
+    padding: 20px;
+    font-style: italic;
+}
+
+/* Content panel (right, 80%) */
+.content-panel {
+    width: 80%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+}
+
+#webview-container {
+    flex: 1;
+    position: relative;
+}
+
+#webview {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.placeholder-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f9f9f9;
+}
+
+.placeholder-text {
+    text-align: center;
+    color: #555;
+}
+
+.placeholder-text h2 {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.logo-placeholder {
+    margin-top: 30px;
+}
+
+#logo {
+    max-width: 200px;
+    max-height: 200px;
+}
+
+/* Status bar */
+.status-bar {
+    height: 25px;
+    background-color: #f5f5f5;
+    border-top: 1px solid #ddd;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    color: #666;
+}
+
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    overflow: auto;
+}
+
+.modal-content {
+    background-color: white;
+    margin: 50px auto;
+    width: 80%;
+    max-width: 800px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    animation: modalFadeIn 0.3s;
+}
+
+.confirm-dialog {
+    max-width: 400px;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h2 {
+    font-size: 18px;
+    color: #333;
+}
+
+.close {
+    color: #aaa;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #333;
+}
+
+.modal-body {
+    padding: 20px;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.modal-footer {
+    padding: 15px 20px;
+    border-top: 1px solid #eee;
+    text-align: right;
+}
+
+/* Settings modal styles */
+.tabs {
+    display: flex;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    padding: 10px 20px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    font-size: 14px;
+    color: #666;
+}
+
+.tab-button:hover {
+    color: #333;
+}
+
+.tab-button.active {
+    color: #4a86e8;
+    border-bottom-color: #4a86e8;
+    font-weight: bold;
+}
+
+.tab-content {
+    margin-top: 15px;
+}
+
+.setting-group {
+    margin-bottom: 25px;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+}
+
+.setting-group h3 {
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: #333;
+}
+
+.radio-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.radio-label {
+    margin-left: 8px;
+    font-size: 14px;
+}
+
+/* Tables */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.data-table th, 
+.data-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.data-table th {
+    background-color: #f5f5f5;
+    font-weight: 600;
+}
+
+.data-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.data-table tr:hover {
+    background-color: #f0f7ff;
+}
+
+/* Buttons */
+.primary-button {
+    background-color: #4a86e8;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s;
+}
+
+.primary-button:hover {
+    background-color: #3a76d8;
+}
+
+.secondary-button {
+    background-color: #f5f5f5;
+    color: #333;
+    border: 1px solid #ddd;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s;
+    margin-right: 10px;
+}
+
+.secondary-button:hover {
+    background-color: #eee;
+}
+
+.delete-button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.delete-button:hover {
+    background-color: #d32f2f;
+}
+
+.delete-button:disabled {
+    background-color: #ffcdd2;
+    cursor: not-allowed;
+}
+
+/* Forms */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #4a86e8;
+    outline: none;
+}
+
+/* Warning message */
+.warning-message {
+    color: #f44336;
+    font-size: 14px;
+    margin-top: 15px;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .websites-panel {
+        width: 30%;
+    }
+    
+    .content-panel {
+        width: 70%;
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: 20px auto;
+    }
+}
+
+/* Manage section */
+.manage-section {
+    margin-bottom: 30px;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+}
+
+.manage-section h3 {
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: #333;
+}
+
+.form-actions {
+    margin-top: 15px;
+    text-align: right;
+}
+
+/* Account styles */
+.account-profile {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+}
+
+.profile-photo {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+.account-details h3 {
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+.account-details p {
+    color: #666;
+    font-size: 14px;
+}
+
+.account-note {
+    color: #666;
+    font-size: 14px;
+    font-style: italic;
+    margin-top: 15px;
+}
+
+/* Form elements */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #4a86e8;
+    outline: none;
+}
+
+/* Buttons */
+.primary-button {
+    background-color: #4a86e8;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s;
+}
+
+.primary-button:hover {
+    background-color: #3a76d8;
+}
+
+.secondary-button {
+    background-color: #f5f5f5;
+    color: #333;
+    border: 1px solid #ddd;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s;
+    margin-right: 10px;
+}
+
+.secondary-button:hover {
+    background-color: #eee;
+} 

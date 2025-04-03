@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interior Resource Hub</title>
+    <meta name="description" content="Ứng dụng quản lý tài nguyên thiết kế nội thất">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/dark-theme.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="img/icon.ico">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+</head>
+<body class="light">
+    <div class="app-container">
+        <!-- Top navigation bar -->
+        <div class="top-nav">
+            <div class="category-container">
+                <!-- Category buttons will be added here dynamically -->
+            </div>
+            <div class="nav-right">
+                <button id="login-button" class="icon-button" title="Đăng nhập">
+                    <i class="fas fa-sign-in-alt"></i>
+                </button>
+                <button id="account-button" class="icon-button" title="Tài khoản" style="display: none;">
+                    <i class="fas fa-user-circle"></i>
+                </button>
+                <button id="settings-button" class="icon-button" title="Cài đặt">
+                    <i class="fas fa-cog"></i>
+                </button>
+                <button id="about-button" class="icon-button" title="Giới thiệu">
+                    <i class="fas fa-info-circle"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Main content area -->
+        <div class="main-content">
+            <!-- Websites panel (left) -->
+            <div class="websites-panel">
+                <div class="panel-header">
+                    <h2>TRANG WEB</h2>
+                </div>
+                <div class="websites-container">
+                    <!-- Website buttons will be added here dynamically -->
+                    <div class="no-websites">
+                        Chọn danh mục để xem các trang web
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Content panel (right) -->
+            <div class="content-panel">
+                <div id="webview-container">
+                    <div class="placeholder-content">
+                        <div class="placeholder-text">
+                            <h2>Interior Resource Hub</h2>
+                            <p>Chọn một trang web để bắt đầu</p>
+                            <div class="logo-placeholder">
+                                <img id="logo" src="img/logo.png" alt="Interior Resource Hub Logo">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="status-bar">
+                    Sẵn sàng
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Cài đặt</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="tabs">
+                    <button class="tab-button active" data-tab="general-tab">Chung</button>
+                    <button class="tab-button" id="manage-tab-button" data-tab="manage-tab" style="display: none;">Quản lý</button>
+                </div>
+                
+                <div id="general-tab" class="tab-content">
+                    <form id="settings-form">
+                        <div class="setting-group" id="language-settings">
+                            <h3>Ngôn ngữ</h3>
+                            <label class="radio-container">
+                                <input type="radio" name="language" value="vi" checked>
+                                <span class="radio-label" id="vi-label">Tiếng Việt</span>
+                            </label>
+                            <label class="radio-container">
+                                <input type="radio" name="language" value="en">
+                                <span class="radio-label" id="en-label">Tiếng Anh</span>
+                            </label>
+                        </div>
+                        
+                        <div class="setting-group" id="theme-settings">
+                            <h3>Giao diện</h3>
+                            <label class="radio-container">
+                                <input type="radio" name="theme" value="light" checked>
+                                <span class="radio-label" id="light-label">Sáng</span>
+                            </label>
+                            <label class="radio-container">
+                                <input type="radio" name="theme" value="dark">
+                                <span class="radio-label" id="dark-label">Tối</span>
+                            </label>
+                        </div>
+                        
+                        <div class="modal-footer">
+                            <button type="submit" class="primary-button">Lưu</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div id="manage-tab" class="tab-content" style="display: none;">
+                    <div class="manage-section">
+                        <h3 id="add-category-heading">Thêm danh mục mới</h3>
+                        <form id="add-category-form">
+                            <div class="form-group">
+                                <label id="new-category-name-label" for="new-category-name">Tên danh mục:</label>
+                                <input type="text" id="new-category-name" required>
+                            </div>
+                            <div class="form-actions">
+                                <button id="add-category-button" type="submit" class="primary-button">Thêm</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="manage-section">
+                        <h3 id="add-website-heading">Thêm trang web mới</h3>
+                        <form id="add-website-form">
+                            <div class="form-group">
+                                <label id="new-website-name-label" for="new-website-name">Tên trang web:</label>
+                                <input type="text" id="new-website-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label id="new-website-url-label" for="new-website-url">URL:</label>
+                                <input type="url" id="new-website-url" required>
+                            </div>
+                            <div class="form-group">
+                                <label id="new-website-description-label" for="new-website-description">Mô tả:</label>
+                                <input type="text" id="new-website-description">
+                            </div>
+                            <div class="form-group">
+                                <label id="new-website-rights-label" for="new-website-rights">Quyền sử dụng:</label>
+                                <input type="text" id="new-website-rights">
+                            </div>
+                            <div class="form-group">
+                                <label id="new-website-category-label" for="new-website-category">Danh mục:</label>
+                                <select id="new-website-category" required>
+                                    <!-- Categories will be added here dynamically -->
+                                </select>
+                            </div>
+                            <div class="form-actions">
+                                <button id="add-website-button" type="submit" class="primary-button">Thêm</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- About Modal -->
+    <div id="about-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Giới thiệu</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <h3>Interior Resource Hub</h3>
+                <p>Phiên bản: 1.0.0</p>
+                <p>Ứng dụng quản lý tài nguyên thiết kế nội thất, giúp tổ chức và truy cập nhanh các trang web hữu ích cho công việc thiết kế 3D và nội thất.</p>
+                <p>Tính năng:</p>
+                <ul>
+                    <li>Danh mục trang web được phân loại</li>
+                    <li>Trình duyệt web tích hợp</li>
+                    <li>Hỗ trợ đa ngôn ngữ</li>
+                    <li>Giao diện thân thiện</li>
+                    <li>Lưu và đồng bộ dữ liệu cá nhân</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Account Modal -->
+    <div id="account-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Tài khoản</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="account-info">
+                    <!-- Account information will be added here dynamically -->
+                </div>
+                <p class="account-note">Dữ liệu của bạn được đồng bộ tự động mỗi khi bạn thêm danh mục hoặc trang web mới.</p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/main.js"></script>
+</body>
+</html> 
